@@ -118,9 +118,10 @@ namespace CustomFormsElements
         }
 
         public static TaskDialogButton ShowMarqueeAwaitDialog(bool cancelable,
-            Func<IAsyncEnumerable<string?>> progressFunc, IWin32Window? window,
-            string? caption = null, string? heading = null,
-            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, bool applicationRun = false)
+            Func<IAsyncEnumerable<(string message, bool error)>> progressFunc, 
+            IWin32Window? window, string? caption = null, string? heading = null,
+            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, 
+            bool applicationRun = false)
         {
             if (setStringArgsAccordingToMessageType)
             {
@@ -139,8 +140,12 @@ namespace CustomFormsElements
             page.ProgressBar = new TaskDialogProgressBar { State = TaskDialogProgressBarState.Marquee };
             page.Created += async (_, _) =>
             {
-                await foreach (string? item in progressFunc())
-                    page.Text = item;
+                await foreach ((string message, bool error) in progressFunc())
+                {
+                    page.Text = message;
+                    if (error)
+                        page.Buttons = new TaskDialogButtonCollection { TaskDialogButton.Close };
+                }
 
                 page.BoundDialog!.Close();
             };
@@ -149,9 +154,10 @@ namespace CustomFormsElements
         }
 
         public static TaskDialogButton ShowNormalAwaitDialog(bool cancelable,
-            Func<IAsyncEnumerable<(int progressVal, string? progressStr)>> progressFunc, int min, int max,
-            IWin32Window? window, string? caption = null, string? heading = null,
-            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, bool applicationRun = false)
+            Func<IAsyncEnumerable<(int progressVal, string? progressStr, bool error)>> progressFunc, 
+            int min, int max, IWin32Window? window, string? caption = null, string? heading = null,
+            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, 
+            bool applicationRun = false)
         {
             if (setStringArgsAccordingToMessageType)
             {
@@ -177,10 +183,12 @@ namespace CustomFormsElements
 
             page.Created += async (_, _) =>
             {
-                await foreach ((int progressVal, string? progressStr) in progressFunc())
+                await foreach ((int progressVal, string? progressStr, bool error) in progressFunc())
                 {
                     page.Text = progressStr;
                     page.ProgressBar.Value = progressVal;
+                    if (error)
+                        page.Buttons = new TaskDialogButtonCollection { TaskDialogButton.Close };
                 }
 
                 page.BoundDialog!.Close();

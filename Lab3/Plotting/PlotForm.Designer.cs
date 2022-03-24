@@ -1,4 +1,4 @@
-﻿namespace Researcher
+﻿namespace Researcher.Plotting
 {
     partial class PlotForm
     {

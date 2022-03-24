@@ -55,20 +55,22 @@ namespace CustomFormsElements
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(243, 68);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(316, 87);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // paramNameLbl
             // 
             this.paramNameLbl.AutoSize = true;
             this.paramNameLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paramNameLbl.Location = new System.Drawing.Point(3, 0);
+            this.paramNameLbl.Location = new System.Drawing.Point(4, 0);
+            this.paramNameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.paramNameLbl.Name = "paramNameLbl";
-            this.paramNameLbl.Size = new System.Drawing.Size(237, 25);
+            this.paramNameLbl.Size = new System.Drawing.Size(308, 32);
             this.paramNameLbl.TabIndex = 0;
             this.paramNameLbl.Text = "Наименование параметра";
             // 
@@ -82,38 +84,41 @@ namespace CustomFormsElements
             this.tableLayoutPanel2.Controls.Add(this.textBox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.measureUnitLbl, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 28);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 36);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(237, 37);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(308, 47);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // textBox
             // 
             this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox.Location = new System.Drawing.Point(3, 3);
+            this.textBox.Location = new System.Drawing.Point(4, 4);
+            this.textBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(150, 31);
+            this.textBox.Size = new System.Drawing.Size(194, 39);
             this.textBox.TabIndex = 0;
             // 
             // measureUnitLbl
             // 
             this.measureUnitLbl.AutoSize = true;
-            this.measureUnitLbl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.measureUnitLbl.Location = new System.Drawing.Point(159, 0);
+            this.measureUnitLbl.Location = new System.Drawing.Point(206, 0);
+            this.measureUnitLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.measureUnitLbl.Name = "measureUnitLbl";
-            this.measureUnitLbl.Size = new System.Drawing.Size(75, 37);
+            this.measureUnitLbl.Size = new System.Drawing.Size(98, 32);
             this.measureUnitLbl.TabIndex = 1;
             this.measureUnitLbl.Text = "Ед. изм.";
             // 
             // ParameterInput
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ParameterInput";
-            this.Size = new System.Drawing.Size(243, 68);
+            this.Size = new System.Drawing.Size(316, 87);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

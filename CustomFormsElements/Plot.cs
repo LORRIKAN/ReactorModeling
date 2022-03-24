@@ -35,8 +35,8 @@ namespace CustomFormsElements
             (double mouseCoordX, double mouseCoordY) = GetMouseCoordinates();
 
             double xyRatio = Plot.XAxis.Dims.PxPerUnit / Plot.YAxis.Dims.PxPerUnit;
-            SignalPlotXY? plt = Plot.GetPlottables()
-                .Where(p => p is SignalPlotXY).Select(p => (SignalPlotXY)p)
+            SignalPlot? plt = Plot.GetPlottables()
+                .OfType<SignalPlot>()
                 .MinBy(p => 
                 { 
                     (double x, double y, _) = p.GetPointNearestX(mouseCoordX);

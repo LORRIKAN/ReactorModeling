@@ -15,12 +15,12 @@ namespace Model
 
         public double Value { get; set; }
 
-        public int? DecimalPlaces { get; set; }
+        public int? DecimalPlaces { get; set; } = 2;
 
         public bool IsOptional { get; set; }
 
         public ParseAndCheckConditions ParseAndCheckConditions { get; set; } = new(
-            DoubleParseAndCheckConditions.Parse, DoubleParseAndCheckConditions.NotLessThanZeroCondition);
+            DoubleParseAndCheckConditions.Parse, DoubleParseAndCheckConditions.MoreThanZeroCondition);
 
         public string ToStringWithPrecision(int? decimalPlaces = null)
         {

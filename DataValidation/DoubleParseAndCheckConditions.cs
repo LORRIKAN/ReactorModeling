@@ -21,8 +21,16 @@ namespace DataValidation
 
         public static (bool result, string? errorMessage) NotLessThanZeroCondition(double val)
         {
-            if (val is < 0)
+            if (val < 0)
                 return (false, "Значение не может быть меньше нуля");
+            else
+                return (true, null);
+        }
+
+        public static (bool result, string? errorMessage) MoreThanZeroCondition(double val)
+        {
+            if (val <= 0)
+                return (false, "Значение должно быть строго больше нуля");
             else
                 return (true, null);
         }
