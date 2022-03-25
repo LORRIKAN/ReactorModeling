@@ -9,8 +9,26 @@ namespace Researcher.Tables
         public ValuesTableForm()
         {
             InitializeComponent();
-            rebuildTable.AddMasterControlsRange(deltaTmult, deltaXmult);
-            rebuildTable.Click += (_, _) => BuildTable();
+            buildTableButt.AddMasterControlsRange(deltaTmult, deltaXmult);
+            buildTableButt.Click += (_, _) => BuildTable();
+
+            deltaTmult.Parameter.ParseAndCheckConditions.CheckFuncs.Add((v) =>
+            {
+                if ((tableBuildMessage.Values.GetLength(0) - 1) % (int)v is not 0)
+                    return (false, $"Значение должно быть делителем количества " +
+                    $"строк ({tableBuildMessage.Values.GetLength(0) - 1}) нацело");
+
+                return (true, null);
+            });
+
+            deltaXmult.Parameter.ParseAndCheckConditions.CheckFuncs.Add((v) =>
+            {
+                if ((tableBuildMessage.Values[0].Length - 1) % (int)v is not 0)
+                    return (false, $"Значение должно быть делителем количества " +
+                    $"столбцов ({tableBuildMessage.Values[0].Length - 1}) нацело");
+
+                return (true, null);
+            });
         }
 
         private TableBuildMessage tableBuildMessage;

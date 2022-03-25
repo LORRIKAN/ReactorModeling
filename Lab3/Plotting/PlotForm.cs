@@ -33,8 +33,7 @@ namespace Researcher.Plotting
 
         protected override void OnShown(EventArgs e)
         {
-            plot.Plot.AddSignal(plotBuildMessage.YValues, (plotBuildMessage.YValues.Length - 1) 
-                / (plotBuildMessage.XValuesDelta * plotBuildMessage.YValues.Length));
+            plot.Plot.AddSignal(plotBuildMessage.YValues, 1/ plotBuildMessage.XValuesDelta);
             plot.Render();
 
             base.OnShown(e);

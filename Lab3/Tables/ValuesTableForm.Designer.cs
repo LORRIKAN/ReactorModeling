@@ -37,7 +37,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.deltaXmult = new CustomFormsElements.UIntParamInput();
             this.deltaTmult = new CustomFormsElements.UIntParamInput();
-            this.rebuildTable = new CustomFormsElements.DependentButt();
+            this.buildTableButt = new CustomFormsElements.DependentButt();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -141,7 +141,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.deltaXmult, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.deltaTmult, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.rebuildTable, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.buildTableButt, 2, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4);
@@ -177,17 +177,17 @@
             this.deltaTmult.TabIndex = 6;
             this.deltaTmult.Value = "1";
             // 
-            // rebuildTable
+            // buildTableButt
             // 
-            this.rebuildTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rebuildTable.Enabled = false;
-            this.rebuildTable.Location = new System.Drawing.Point(768, 4);
-            this.rebuildTable.Margin = new System.Windows.Forms.Padding(4);
-            this.rebuildTable.Name = "rebuildTable";
-            this.rebuildTable.Size = new System.Drawing.Size(402, 119);
-            this.rebuildTable.TabIndex = 9;
-            this.rebuildTable.Text = "Построить таблицу";
-            this.rebuildTable.UseVisualStyleBackColor = true;
+            this.buildTableButt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buildTableButt.Enabled = false;
+            this.buildTableButt.Location = new System.Drawing.Point(768, 4);
+            this.buildTableButt.Margin = new System.Windows.Forms.Padding(4);
+            this.buildTableButt.Name = "buildTableButt";
+            this.buildTableButt.Size = new System.Drawing.Size(402, 119);
+            this.buildTableButt.TabIndex = 9;
+            this.buildTableButt.Text = "Построить таблицу";
+            this.buildTableButt.UseVisualStyleBackColor = true;
             // 
             // dataGridView
             // 
@@ -239,6 +239,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private CustomFormsElements.UIntParamInput deltaXmult;
         private CustomFormsElements.UIntParamInput deltaTmult;
-        private CustomFormsElements.DependentButt rebuildTable;
+        private CustomFormsElements.DependentButt buildTableButt;
     }
 }

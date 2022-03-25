@@ -107,7 +107,7 @@ namespace Researcher
 
             var res = MessageDialog.ShowNormalAwaitDialog(true,
                 CalcAndVisualize, 0, maxProgress, this, "Процесс моделирования и " +
-                "визуализации", "Идёт процесс моделирования и визуализации", aboveAll: true);
+                "визуализации", "Идёт процесс моделирования и визуализации...", aboveAll: true);
 
             if (res == TaskDialogButton.Cancel || res == TaskDialogButton.Close)
             {
@@ -116,7 +116,7 @@ namespace Researcher
                     cancelTokenSource.Cancel();
             }
 
-            var resForm = new ResultsForm() { Results = (await calcTask).calcResult.Results };
+            new ResultsForm() { Results = (await calcTask).calcResult.Results }.Show();
 
             SwitchControls(true);
         }

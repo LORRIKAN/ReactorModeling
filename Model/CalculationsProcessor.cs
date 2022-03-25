@@ -33,7 +33,7 @@ namespace Model
 
             var S = new Parameter { Value = (Math.PI * Math.Pow(D, 2)) / 4, NameInMathModel = "S" };
 
-            var u = new Parameter { Value = (Q * Math.Pow(10, -3)) / S };
+            var u = new Parameter { Value = (Q * Math.Pow(10, -3)) / S, NameInMathModel = "u" };
 
             var tauR = new Parameter { Value = L / u, NameInMathModel = "tauR" };
 
@@ -51,9 +51,9 @@ namespace Model
 
             var deltaT = new Parameter { Value = (Ku * deltaX) / u, NameInMathModel = "deltaT" };
 
-            var M = new IntParameter { Value = (int)Math.Round(L / deltaX), NameInMathModel = "M" };
+            var M = new IntParameter { Value = (int)Math.Round(L / deltaX) + 1, NameInMathModel = "M" };
 
-            var N = new IntParameter { Value = (int)Math.Round(teta / deltaT), NameInMathModel = "N" };
+            var N = new IntParameter { Value = (int)Math.Round(teta / deltaT) + 1, NameInMathModel = "N" };
 
             var ea = new Parameter { NameInMathModel = "ea" };
 
@@ -74,8 +74,8 @@ namespace Model
                     deltaX.Value /= 2;
                     deltaT.Value /= 2;
 
-                    M.Value *= 2;
-                    N.Value *= 2;
+                    M.Value = M.Value * 2 - 1;
+                    N.Value = N.Value * 2 - 1;
                 }
 
                 CA = InitializeArray(N, M);
@@ -116,7 +116,7 @@ namespace Model
 
                 if (q != 0)
                 {
-                    ea.Value = Math.Sqrt(Disp(N1, M1, CC, CC1) / ((double)M1 * N1));
+                    ea.Value = Math.Sqrt(Disp(N1, M1, CC, CC1) / ((double)(M1 - 1) * (N1 - 1)));
                     CCmax.Value = Max(CC);
                     e.Value = (ea / CCmax) * 100;
                 }
@@ -132,6 +132,8 @@ namespace Model
             var tCalc = new Parameter { Value = timer.Elapsed.TotalSeconds, NameInMathModel = "tCalc" };
 
             q.Value--;
+            M.Value--;
+            N.Value--;
 
             return new CalcResult
             {
