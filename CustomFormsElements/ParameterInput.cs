@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using DataValidation;
 using Model;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -20,7 +19,7 @@ namespace CustomFormsElements
             paramNameLbl.Text = parameter?.DisplayedName ?? string.Empty;
             string value;
             if (parameter?.Value is not null)
-                value = parameter.ToStringWithPrecision();
+                value = parameter.ToString();
             else
                 value = string.Empty;
 
@@ -63,6 +62,7 @@ namespace CustomFormsElements
             set
             {
                 textBox.Text = value;
+                Parameter.TrySetValue(value);
             }
         }
 

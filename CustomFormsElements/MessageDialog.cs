@@ -117,10 +117,10 @@ namespace CustomFormsElements
             ShowDialog(window, applicationRun, page);
         }
 
-        public static TaskDialogButton ShowMarqueeAwaitDialog(bool cancelable,
-            Func<IAsyncEnumerable<(string message, bool error)>> progressFunc, 
+        public static TaskDialogButton ShowMarqueeAwaitDialog(
+            Func<IAsyncEnumerable<(string message, bool error, bool cancelable)>> progressFunc,
             IWin32Window? window, string? caption = null, string? heading = null,
-            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, 
+            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false,
             bool applicationRun = false)
         {
             if (setStringArgsAccordingToMessageType)
@@ -128,48 +128,48 @@ namespace CustomFormsElements
                 SetStringArg(ref caption, "Окно прогресса");
             }
 
-            TaskDialogButtonCollection buttons;
-
-            if (cancelable)
-                buttons = new TaskDialogButtonCollection { TaskDialogButton.Cancel };
-            else
-                buttons = new TaskDialogButtonCollection();
+            TaskDialogButton okButt = TaskDialogButton.OK;
+            TaskDialogButton cancelButt = TaskDialogButton.Cancel;
+            okButt.Visible = false;
+            var buttons = new TaskDialogButtonCollection { cancelButt, okButt };
 
             TaskDialogPage page = CreatePage(aboveAll, caption, heading, null, buttons);
 
             page.ProgressBar = new TaskDialogProgressBar { State = TaskDialogProgressBarState.Marquee };
             page.Created += async (_, _) =>
             {
-                await foreach ((string message, bool error) in progressFunc())
+                bool err = false;
+                await foreach ((string message, bool error, bool cancelable) in progressFunc())
                 {
                     page.Text = message;
+                    err = error;
                     if (error)
                         page.Buttons = new TaskDialogButtonCollection { TaskDialogButton.Close };
+
+                    cancelButt.Enabled = cancelable;
                 }
 
-                page.BoundDialog!.Close();
+                if (page.BoundDialog is not null && !err)
+                    okButt.PerformClick();
             };
 
             return ShowDialog(window, applicationRun, page);
         }
 
-        public static TaskDialogButton ShowNormalAwaitDialog(bool cancelable,
-            Func<IAsyncEnumerable<(int progressVal, string? progressStr, bool error)>> progressFunc, 
-            int min, int max, IWin32Window? window, string? caption = null, string? heading = null,
-            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, 
-            bool applicationRun = false)
+        public static TaskDialogButton ShowNormalAwaitDialog(
+            Func<IAsyncEnumerable<(int progressVal, string? progressStr, bool error, bool cancelable)>>
+            progressFunc, int min, int max, IWin32Window? window, string? caption = null, string? heading = null,
+            bool setStringArgsAccordingToMessageType = false, bool aboveAll = false, bool applicationRun = false)
         {
             if (setStringArgsAccordingToMessageType)
             {
                 SetStringArg(ref caption, "Окно прогресса");
             }
 
-            TaskDialogButtonCollection buttons;
-
-            if (cancelable)
-                buttons = new TaskDialogButtonCollection { TaskDialogButton.Cancel };
-            else
-                buttons = new TaskDialogButtonCollection();
+            TaskDialogButton okButt = TaskDialogButton.OK;
+            TaskDialogButton cancelButt = TaskDialogButton.Cancel;
+            okButt.Visible = false;
+            var buttons = new TaskDialogButtonCollection { cancelButt, okButt };
 
             TaskDialogPage page = CreatePage(aboveAll, caption, heading, null, buttons);
 
@@ -183,15 +183,20 @@ namespace CustomFormsElements
 
             page.Created += async (_, _) =>
             {
-                await foreach ((int progressVal, string? progressStr, bool error) in progressFunc())
+                bool err = false;
+                await foreach ((int progressVal, string? progressStr, bool error, bool cancelable) in progressFunc())
                 {
                     page.Text = progressStr;
                     page.ProgressBar.Value = progressVal;
+                    err = error;
                     if (error)
                         page.Buttons = new TaskDialogButtonCollection { TaskDialogButton.Close };
+
+                    cancelButt.Enabled = cancelable;
                 }
 
-                page.BoundDialog!.Close();
+                if (page.BoundDialog is not null && !err)
+                    okButt.PerformClick();
             };
 
             return ShowDialog(window, applicationRun, page);

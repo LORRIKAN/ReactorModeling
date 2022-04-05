@@ -1,5 +1,5 @@
-﻿using Model;
-using CustomFormsElements;
+﻿using CustomFormsElements;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +32,7 @@ namespace Researcher
             {
                 if (Results.FirstOrDefault(p => p.NameInMathModel == parameterO.NameInMathModel)
                     is Parameter param)
-                    parameterO.Value = param.ToStringWithPrecision();
+                    parameterO.Value = param.ToString();
             }
         }
 

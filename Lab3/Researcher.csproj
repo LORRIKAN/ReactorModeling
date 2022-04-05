@@ -4,8 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyName>CellReactor</AssemblyName>
+    <AssemblyName>ReactorModelling</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CustomFormsElements\CustomFormsElements.csproj" />

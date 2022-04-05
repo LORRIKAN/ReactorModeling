@@ -1,6 +1,6 @@
+using Researcher;
 using System;
 using System.Windows.Forms;
-using Researcher;
 
 namespace Lab3
 {

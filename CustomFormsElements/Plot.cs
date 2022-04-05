@@ -3,7 +3,6 @@ using ScottPlot;
 using ScottPlot.Plottable;
 using System;
 using System.Linq;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace CustomFormsElements
@@ -27,7 +26,7 @@ namespace CustomFormsElements
 
         private string? title;
 
-        private Crosshair? Crosshair { get; set; }
+        public Crosshair? Crosshair { get; set; }
 
         private void Plot_MouseMove(object? sender, MouseEventArgs e)
         {
@@ -37,10 +36,10 @@ namespace CustomFormsElements
             double xyRatio = Plot.XAxis.Dims.PxPerUnit / Plot.YAxis.Dims.PxPerUnit;
             SignalPlot? plt = Plot.GetPlottables()
                 .OfType<SignalPlot>()
-                .MinBy(p => 
-                { 
+                .MinBy(p =>
+                {
                     (double x, double y, _) = p.GetPointNearestX(mouseCoordX);
-                    return Math.Abs(mouseCoordX - x) + Math.Abs(mouseCoordY - y); 
+                    return Math.Abs(mouseCoordX - x) + Math.Abs(mouseCoordY - y);
                 });
 
             if (plt is null)

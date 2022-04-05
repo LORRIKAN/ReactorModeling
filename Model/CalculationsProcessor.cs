@@ -24,10 +24,9 @@ namespace Model
         private Parameter emax { get; set; } = new() { NameInMathModel = "emax" };
         private IntParameter qmax { get; set; } = new() { NameInMathModel = "qmax" };
 
-        public CalcResult StartCalculations(IEnumerable<Parameter> inputParams, CancellationToken cancellationToken)
+        public CalcResult? StartCalculations(IEnumerable<Parameter> inputParams, CancellationToken cancellationToken)
         {
             SetParams(inputParams);
-
             var timer = new Stopwatch();
             timer.Start();
 
@@ -55,7 +54,7 @@ namespace Model
 
             var N = new IntParameter { Value = (int)Math.Round(teta / deltaT) + 1, NameInMathModel = "N" };
 
-            var ea = new Parameter { NameInMathModel = "ea" };
+            var ea = new Parameter { NameInMathModel = "ea", DecimalPlaces = 4 };
 
             var CCmax = new Parameter { NameInMathModel = "CCmax" };
 
@@ -96,23 +95,25 @@ namespace Model
                     CC[j][0] = 0;
                 }
 
-                cancellationToken.ThrowIfCancellationRequested();
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
 
                 for (int j = 0; j < N - 1; j++)
                 {
                     for (int i = 1; i < M - 1; i++)
                     {
-                        CA[j+1][i] = 0.5*((CA[j][i-1]+CA[j][i+1]) * (1-0.5*(k1*deltaT*(CB[j][i-1]+CB[j][i+1]))) - Ku*(CA[j][i+1]-CA[j][i-1]));
-                        CB[j+1][i] = 0.5*((CB[j][i-1]+CB[j][i+1]) * (1-0.5*(k1*deltaT*(CA[j][i-1]+CA[j][i+1]))) - Ku*(CB[j][i+1]-CB[j][i-1]));
-                        CC[j+1][i] = 0.5*((CC[j][i-1]+CC[j][i+1]) * (1-k2*deltaT) - Ku*(CC[j][i+1]-CC[j][i-1]) + 0.5*(k1*deltaT*(CA[j][i-1]+CA[j][i+1])*(CB[j][i-1]+CB[j][i+1])));
+                        CA[j + 1][i] = 0.5 * ((CA[j][i - 1] + CA[j][i + 1]) * (1 - 0.5 * (k1 * deltaT * (CB[j][i - 1] + CB[j][i + 1]))) - Ku * (CA[j][i + 1] - CA[j][i - 1]));
+                        CB[j + 1][i] = 0.5 * ((CB[j][i - 1] + CB[j][i + 1]) * (1 - 0.5 * (k1 * deltaT * (CA[j][i - 1] + CA[j][i + 1]))) - Ku * (CB[j][i + 1] - CB[j][i - 1]));
+                        CC[j + 1][i] = 0.5 * ((CC[j][i - 1] + CC[j][i + 1]) * (1 - k2 * deltaT) - Ku * (CC[j][i + 1] - CC[j][i - 1]) + 0.5 * (k1 * deltaT * (CA[j][i - 1] + CA[j][i + 1]) * (CB[j][i - 1] + CB[j][i + 1])));
                     }
 
-                    CA[j+1][M-1]=CA[j][M-1] * (1-k1*deltaT*CB[j][M-1]) - Ku*(CA[j][M-1]-CA[j][M-2]);
-                    CB[j+1][M-1]=CB[j][M-1] * (1-k1*deltaT*CA[j][M-1]) - Ku*(CB[j][M-1]-CB[j][M-2]);
-                    CC[j+1][M-1]=CC[j][M-1] * (1-k2*deltaT) - Ku*(CC[j][M-1]-CC[j][M-2]) + k1*deltaT*CA[j][M-1]*CB[j][M-1];
+                    CA[j + 1][M - 1] = CA[j][M - 1] * (1 - k1 * deltaT * CB[j][M - 1]) - Ku * (CA[j][M - 1] - CA[j][M - 2]);
+                    CB[j + 1][M - 1] = CB[j][M - 1] * (1 - k1 * deltaT * CA[j][M - 1]) - Ku * (CB[j][M - 1] - CB[j][M - 2]);
+                    CC[j + 1][M - 1] = CC[j][M - 1] * (1 - k2 * deltaT) - Ku * (CC[j][M - 1] - CC[j][M - 2]) + k1 * deltaT * CA[j][M - 1] * CB[j][M - 1];
                 }
 
-                cancellationToken.ThrowIfCancellationRequested();
+                if (cancellationToken.IsCancellationRequested)
+                    return null;
 
                 if (q != 0)
                 {
@@ -140,7 +141,7 @@ namespace Model
                 CA = CA,
                 CB = CB,
                 CC = CC,
-                Results = new [] { S, u, k1, k2, CCmax, deltaX, deltaT, M, N, q, ea, e, tauR, teta, tCalc }
+                Results = new[] { S, u, k1, k2, CCmax, deltaX, deltaT, M, N, q, ea, e, tauR, teta, tCalc }
             };
         }
 
@@ -173,7 +174,7 @@ namespace Model
 
             for (int j = 1; j < N1; j++)
                 for (int i = 1; i < M1; i++)
-                    disp += Math.Pow(CC[2*j][2*i] - CC1[j][i], 2);
+                    disp += Math.Pow(CC[2 * j][2 * i] - CC1[j][i], 2);
 
             return disp;
         }
@@ -190,11 +191,16 @@ namespace Model
             }
         }
 
-        private class IntParameter : Parameter
+        private record class IntParameter : Parameter
         {
             public new int Value { get => (int)base.Value; set => base.Value = value; }
 
             public static implicit operator int(IntParameter parameter) => parameter.Value;
+
+            public override string ToString()
+            {
+                return Value.ToString();
+            }
         }
     }
 }

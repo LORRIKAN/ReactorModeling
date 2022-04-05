@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Researcher.Plotting
+﻿namespace Researcher.Plotting
 {
     public class PlotReservation
     {
@@ -12,7 +6,8 @@ namespace Researcher.Plotting
 
         public XCoordType CoordType { get; set; }
 
-        public string Name => $"График изменения концентрации компонента " +
-            $"{ComponentName} по {(CoordType is XCoordType.Time ? "времени" : "длине реактора")}";
+        public string Name => $"График изменения {(CoordType is XCoordType.Time ? "выходной" : "конечной")} " +
+            $"концентрации компонента {ComponentName} " +
+            $"по {(CoordType is XCoordType.Time ? "времени" : "длине реактора")}";
     }
 }

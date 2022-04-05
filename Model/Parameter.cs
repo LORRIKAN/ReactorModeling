@@ -1,11 +1,9 @@
 ﻿#nullable enable
 using DataValidation;
-using System;
-using System.Collections.Generic;
 
 namespace Model
 {
-    public class Parameter
+    public record class Parameter
     {
         public string? MeasureUnit { get; set; }
 
@@ -22,16 +20,6 @@ namespace Model
         public ParseAndCheckConditions ParseAndCheckConditions { get; set; } = new(
             DoubleParseAndCheckConditions.Parse, DoubleParseAndCheckConditions.MoreThanZeroCondition);
 
-        public string ToStringWithPrecision(int? decimalPlaces = null)
-        {
-            decimalPlaces ??= DecimalPlaces;
-
-            if (decimalPlaces is not null)
-                return Value.ToString($"F{DecimalPlaces}");
-            else
-                return Value.ToString();
-        }
-
         public (bool parsed, double result, string? errorMessage) TrySetValue(string strToParse)
         {
             (bool parsed, double result, string? errorMessage) = ParseAndCheckConditions.TryParseAndValidate(strToParse);
@@ -43,5 +31,13 @@ namespace Model
         }
 
         public static implicit operator double(Parameter parameter) => parameter.Value;
+
+        public override string ToString()
+        {
+            if (DecimalPlaces is not null)
+                return Value.ToString($"F{DecimalPlaces}");
+            else
+                return Value.ToString();
+        }
     }
 }
